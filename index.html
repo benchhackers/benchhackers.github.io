@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to benchhackers!</title>
+    <style>
+        /* CSS to center all text */
+        body {
+            display: flex;               /* Enables flexbox layout */
+            flex-direction: column;      /* Stacks items vertically */
+            align-items: center;         /* Centers items horizontally */
+            justify-content: center;     /* Centers items vertically */
+            text-align: center;          /* Centers text within each block */
+            min-height: 100vh;           /* Makes body fill the full height of the viewport */
+            margin: 0;                   /* Removes default margin */
+            font-family: Arial, sans-serif; /* Optional: Better default font */
+        }
+
+        header, main, footer {
+            width: 100%;                 /* Ensure sections span the page */
+        }
+    </style>
     <script>
-      
-        if (window.location.hostname === "benchhackers.github.io") {
+            if (window.location.hostname === "benchhackers.github.io") {
             window.location.href = "https://www.benchhackers.com";
         }
     </script>
@@ -20,7 +36,7 @@
         <p>Stay tuned!</p>
     </main>
     <footer>
-        <p>&copy; benchhackers.com.</p>
+        <p>&copy; benchhackers.com 2025</p>
     </footer>
 </body>
 </html>
