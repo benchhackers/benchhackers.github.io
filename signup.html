@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup to be notified about progress!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center font-sans">
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-md w-full mx-4">
+        <div id="formContainer">
+            <h1 class="text-2xl font-bold mb-6 text-center">What Interests You In SWE-bench and AI Agents?</h1>
+            
+            <form id="interestForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        What is your role?
+                    </label>
+                    <select name="role" id="roleSelect" class="w-full p-2 border rounded-md mb-2">
+                        <option value="">-- Select role--</option>
+                        <option value="dev">Individual Developer</option>
+                        <option value="lead">Technical Lead / Architect</option>
+                        <option value="exec">Executive</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <div id="otherRoleContainer" class="hidden">
+                        <input 
+                            type="text" 
+                            id="otherRole"
+                            name="otherRole" 
+                            maxlength="100"
+                            class="w-full p-2 border rounded-md"
+                            placeholder="Please specify your role (max 100 characters)"
+                        >
+                        <span class="text-sm text-gray-500" id="otherRoleCount">0/100</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        What use cases are you targeting for AI software development agents?
+                        <span class="text-sm text-gray-500">(Select multiple)</span>
+                    </label>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" name="usecase" value="test" class="mr-2">
+                            Test generation
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="usecase" value="deploy" class="mr-2">
+                            Deployment automation
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="usecase" value="defect" class="mr-2">
+                            Defect fixing
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="usecase" value="doc" class="mr-2">
+                            Document generation
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="usecase" value="other" id="otherUsecaseCheckbox" class="mr-2">
+                            Other
+                        </label>
+                    </div>
+                    <div id="otherUsecaseContainer" class="hidden mt-2">
+                        <input 
+                            type="text" 
+                            id="otherUsecase"
+                            name="otherUsecase" 
+                            maxlength="200"
+                            class="w-full p-2 border rounded-md"
+                            placeholder="Please specify other use cases (max 200 characters)"
+                        >
+                        <span class="text-sm text-gray-500" id="otherUsecaseCount">0/200</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Any other information you think we'll find useful?
+                        <span class="text-sm text-gray-500">(max 1000 characters)</span>
+                    </label>
+                    <textarea 
+                        name="moreinfo" 
+                        id="moreinfo"
+                        maxlength="1000"
+                        class="w-full p-2 border rounded-md"
+                        rows="3"
+                    ></textarea>
+                    <span class="text-sm text-gray-500" id="moreinfoCount">0/1000</span>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Email Address
+                    </label>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        id="email"
+                        required 
+                        maxlength="254"
+                        pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+                        class="w-full p-2 border rounded-md"
+                        placeholder="your@email.com"
+                    >
+                    <span class="text-sm text-gray-500">Maximum 254 characters</span>
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                >
+                    Stay Updated
+                </button>
+
+                <div id="submitStatus" class="text-center hidden">
+                    <p class="text-green-600">Thanks for your interest! We'll keep you updated.</p>
+                </div>
+
+                <!-- Debug Output -->
+                <div id="debugOutput" class="mt-4 p-4 bg-gray-100 rounded-md hidden">
+                    <h3 class="font-bold mb-2">Debug Output:</h3>
+                    <pre id="debugContent" class="whitespace-pre-wrap break-words text-sm"></pre>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Character counter function
+        function updateCharCount(inputEl, countEl, maxLength) {
+            const count = inputEl.value.length;
+            countEl.textContent = `${count}/${maxLength}`;
+            countEl.className = count === maxLength ? 
+                'text-sm text-red-500' : 'text-sm text-gray-500';
+        }
+
+        // Setup character counters
+        const counterSetups = [
+            ['otherRole', 'otherRoleCount', 100],
+            ['otherUsecase', 'otherUsecaseCount', 200],
+            ['moreinfo', 'moreinfoCount', 1000]
+        ];
+
+        counterSetups.forEach(([inputId, counterId, maxLength]) => {
+            const input = document.getElementById(inputId);
+            const counter = document.getElementById(counterId);
+            input.addEventListener('input', () => updateCharCount(input, counter, maxLength));
+        });
+
+        // Sanitize input function
+        function sanitizeInput(input) {
+            // Remove any HTML tags
+            let sanitized = input.replace(/<[^>]*>/g, '');
+            // Convert special characters to HTML entities
+            sanitized = sanitized.replace(/[&<>"'/]/g, function(char) {
+                const entities = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#x27;',
+                    "/": '&#x2F;'
+                };
+                return entities[char];
+            });
+            return sanitized.trim();
+        }
+
+        // Show/hide other role field
+        document.getElementById('roleSelect').addEventListener('change', function() {
+            const otherRoleContainer = document.getElementById('otherRoleContainer');
+            const otherRoleInput = document.getElementById('otherRole');
+            const otherRoleCount = document.getElementById('otherRoleCount');
+            
+            otherRoleContainer.classList.toggle('hidden', this.value !== 'other');
+            if (this.value === 'other') {
+                otherRoleInput.required = true;
+            } else {
+                otherRoleInput.required = false;
+                otherRoleInput.value = ''; // Clear the input
+                otherRoleCount.textContent = '0/100'; // Reset counter
+            }
+        });
+
+        // Show/hide other usecase field
+        document.getElementById('otherUsecaseCheckbox').addEventListener('change', function() {
+            const otherUsecaseContainer = document.getElementById('otherUsecaseContainer');
+            const otherUsecaseInput = document.getElementById('otherUsecase');
+            const otherUsecaseCount = document.getElementById('otherUsecaseCount');
+            
+            otherUsecaseContainer.classList.toggle('hidden', !this.checked);
+            if (this.checked) {
+                otherUsecaseInput.required = true;
+            } else {
+                otherUsecaseInput.required = false;
+                otherUsecaseInput.value = ''; // Clear the input
+                otherUsecaseCount.textContent = '0/200'; // Reset counter
+            }
+        });
+
+        // Form submission handler with validation
+        document.getElementById('interestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect and sanitize form data
+            const formData = {
+                role: document.getElementById('roleSelect').value,
+                otherRole: document.getElementById('roleSelect').value === 'other' ? 
+                          sanitizeInput(document.getElementById('otherRole').value) : null,
+                usecases: Array.from(document.querySelectorAll('input[name="usecase"]:checked'))
+                            .map(cb => cb.value),
+                otherUsecase: document.getElementById('otherUsecaseCheckbox').checked ?
+                             sanitizeInput(document.getElementById('otherUsecase').value) : null,
+                moreinfo: sanitizeInput(document.querySelector('textarea[name="moreinfo"]').value),
+                email: document.querySelector('input[name="email"]').value.toLowerCase().trim()
+            };
+
+            // Validation
+            let errors = [];
+
+            // Role validation
+            if (formData.role === 'other') {
+                if (!formData.otherRole) {
+                    errors.push('Please specify your role');
+                } else if (formData.otherRole.length < 2) {
+                    errors.push('Role description must be at least 2 characters');
+                }
+            }
+
+            if (formData.usecases.includes('other')) {
+                if (!formData.otherUsecase) {
+                    errors.push('Please specify other use cases');
+                } else if (formData.otherUsecase.length < 5) {
+                    errors.push('Other use case description must be at least 5 characters');
+                }
+            }
+
+            // Email validation
+            const email = formData.email;
+            if (!email) {
+                errors.push('Email is required');
+            } else {
+                // Basic email validation
+                if (!email.match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/)) {
+                    errors.push('Please enter a valid email address');
+                }
+                // Length validation
+                if (email.length > 254) {
+                    errors.push('Email address is too long (maximum 254 characters)');
+                }
+                // Local part validation
+                const localPart = email.split('@')[0];
+                if (localPart.length > 64) {
+                    errors.push('Email username part is too long (maximum 64 characters)');
+                }
+            }
+
+            // Show debug output
+            const debugOutput = document.getElementById('debugOutput');
+            const debugContent = document.getElementById('debugContent');
+            debugOutput.classList.remove('hidden');
+
+            if (errors.length > 0) {
+                debugContent.innerHTML = 'Validation Errors:\n' + errors.join('\n') + 
+                                      '\n\nForm Data:\n' + JSON.stringify(formData, null, 2);
+                return;
+            }
+
+            debugContent.innerHTML = 'Form submitted successfully!\n\nForm Data:\n' + 
+                                   JSON.stringify(formData, null, 2);
+
+            // Show success message
+            document.getElementById('submitStatus').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('submitStatus').classList.add('hidden');
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
