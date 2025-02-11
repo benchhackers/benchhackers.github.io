@@ -105,6 +105,7 @@
                         class="w-full p-2 border rounded-md"
                         placeholder="your@email.com"
                     >
+                    <div id="emailError" class="text-red-500 text-sm mt-1 hidden"></div>
                     <span class="text-sm text-gray-500">Maximum 254 characters</span>
                 </div>
 
@@ -200,6 +201,27 @@
                 otherUsecaseCount.textContent = '0/200'; // Reset counter
             }
         });
+
+        // add user visible email validation
+        const emailInput = document.querySelector('input[name="email"]');
+        const emailError = document.getElementById('emailError');
+
+        emailInput.addEventListener('input', function() {
+            const email = this.value.trim();
+            
+            if (!email) {
+                emailError.textContent = 'Email is required';
+                emailError.classList.remove('hidden');
+            } else if (!email.match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/)) {
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.classList.remove('hidden');
+            } else if (email.length > 254) {
+                emailError.textContent = 'Email address is too long (maximum 254 characters)';
+                emailError.classList.remove('hidden');
+            } else {
+                emailError.classList.add('hidden');
+            }
+        });        
 
         // Form submission handler with validation
         document.getElementById('interestForm').addEventListener('submit', function(e) {
