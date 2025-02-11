@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup to be notified about progress!</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-start justify-center font-sans mt-8">
     <div class="bg-white p-8 rounded-lg shadow-md max-w-md w-full mx-4">
@@ -101,7 +103,7 @@
                         id="email"
                         required 
                         maxlength="254"
-                        pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+                        pattern="[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}"
                         class="w-full p-2 border rounded-md"
                         placeholder="your@email.com"
                     >
@@ -130,6 +132,20 @@
     </div>
 
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMvD69GWPB4oWI2mbi5ak4yqNQi7qQFrU",
+            authDomain: "benchhackers-swebench-interest.firebaseapp.com",
+            projectId: "benchhackers-swebench-interest",
+            storageBucket: "benchhackers-swebench-interest.firebasestorage.app",
+            messagingSenderId: "656644811049",
+            appId: "1:656644811049:web:587760a027b65063e6ef38",
+            measurementId: "G-VG992JS3KX"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
         // Character counter function
         function updateCharCount(inputEl, countEl, maxLength) {
             const count = inputEl.value.length;
@@ -212,7 +228,7 @@
             if (!email) {
                 emailError.textContent = 'Email is required';
                 emailError.classList.remove('hidden');
-            } else if (!email.match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/)) {
+            } else if (!email.match(/^[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}$/)) {
                 emailError.textContent = 'Please enter a valid email address';
                 emailError.classList.remove('hidden');
             } else if (email.length > 254) {
@@ -221,29 +237,29 @@
             } else {
                 emailError.classList.add('hidden');
             }
-        });        
+        });    
 
-        // Form submission handler with validation
-        document.getElementById('interestForm').addEventListener('submit', function(e) {
+        // Form submission handler with validation and firebase
+        document.getElementById('interestForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Collect and sanitize form data
             const formData = {
                 role: document.getElementById('roleSelect').value,
                 otherRole: document.getElementById('roleSelect').value === 'other' ? 
-                          sanitizeInput(document.getElementById('otherRole').value) : null,
+                        sanitizeInput(document.getElementById('otherRole').value) : null,
                 usecases: Array.from(document.querySelectorAll('input[name="usecase"]:checked'))
                             .map(cb => cb.value),
                 otherUsecase: document.getElementById('otherUsecaseCheckbox').checked ?
-                             sanitizeInput(document.getElementById('otherUsecase').value) : null,
+                            sanitizeInput(document.getElementById('otherUsecase').value) : null,
                 moreinfo: sanitizeInput(document.querySelector('textarea[name="moreinfo"]').value),
-                email: document.querySelector('input[name="email"]').value.toLowerCase().trim()
+                email: document.querySelector('input[name="email"]').value.toLowerCase().trim(),
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
             // Validation
             let errors = [];
-
-            // Role validation
+            
             if (formData.role === 'other') {
                 if (!formData.otherRole) {
                     errors.push('Please specify your role');
@@ -265,15 +281,12 @@
             if (!email) {
                 errors.push('Email is required');
             } else {
-                // Basic email validation
                 if (!email.match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/)) {
                     errors.push('Please enter a valid email address');
                 }
-                // Length validation
                 if (email.length > 254) {
                     errors.push('Email address is too long (maximum 254 characters)');
                 }
-                // Local part validation
                 const localPart = email.split('@')[0];
                 if (localPart.length > 64) {
                     errors.push('Email username part is too long (maximum 64 characters)');
@@ -287,18 +300,55 @@
 
             if (errors.length > 0) {
                 debugContent.innerHTML = 'Validation Errors:\n' + errors.join('\n') + 
-                                      '\n\nForm Data:\n' + JSON.stringify(formData, null, 2);
+                                    '\n\nForm Data:\n' + JSON.stringify(formData, null, 2);
                 return;
             }
 
-            debugContent.innerHTML = 'Form submitted successfully!\n\nForm Data:\n' + 
-                                   JSON.stringify(formData, null, 2);
+            function cleanFormData(data) {
+                // Deep clone the object to avoid modifying the original
+                let cleaned = JSON.parse(JSON.stringify(data));
+                
+                // Helper function to check if value is empty
+                const isEmpty = (value) => {
+                    if (Array.isArray(value)) return value.length === 0;
+                    if (value === null || value === undefined) return true;
+                    if (typeof value === 'string') return value.trim() === '';
+                    return false;
+                };
+                
+                // Remove empty values
+                Object.keys(cleaned).forEach(key => {
+                    if (isEmpty(cleaned[key])) {
+                        delete cleaned[key];
+                    }
+                });
+                
+                return cleaned;
+            }
 
-            // Show success message
-            document.getElementById('submitStatus').classList.remove('hidden');
-            setTimeout(() => {
-                document.getElementById('submitStatus').classList.add('hidden');
-            }, 3000);
+            const cleanedData = cleanFormData(formData);
+
+            try {
+
+                // Save to Firebase
+                await db.collection('interests').add(cleanedData);
+                
+                // Show success message
+                document.getElementById('submitStatus').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('submitStatus').classList.add('hidden');
+                }, 3000);
+
+                // Clear form
+                e.target.reset();
+                
+                debugContent.innerHTML = 'Form submitted successfully to Firebase!\n\nForm Data:\n' + 
+                                    JSON.stringify(cleanedData, null, 2);
+            } catch (error) {
+                console.error('Firebase error:', error);
+                debugContent.innerHTML = 'Error submitting to Firebase:\n' + error.message + 
+                                    '\n\nForm Data:\n' + JSON.stringify(cleanedData, null, 2);
+            }
         });
     </script>
 </body>
