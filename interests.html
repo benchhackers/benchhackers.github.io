@@ -335,6 +335,8 @@
 
                 // Clear form
                 e.target.reset();
+
+                document.getElementById('submitButton').disabled = true;
                 
                 debugContent.innerHTML = 'Form submitted successfully to Firebase!\n\nForm Data:\n' + 
                                     JSON.stringify(cleanedData, null, 2);
