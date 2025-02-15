@@ -3,64 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup to be notified about progress!</title>
+    <title>Welcome to benchhackers.com!</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-start justify-center font-sans mt-8">
-    <div class="bg-white p-8 rounded-lg shadow-md max-w-md w-full mx-4">
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl w-full mx-4">
         <div id="formContainer">
-            <h1 class="text-2xl font-bold mb-6 text-center">What Interests You In SWE-bench and AI Agents?</h1>
+            <h1 class="text-2xl font-bold mb-6 text-center">What Interests You In SWE-bench and AI Coding Agents?</h1>
             
             <form id="interestForm" class="space-y-6">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        What is your role?
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        If you are here, you are our kind of benchmark hacker. You have been tracking SWE-bench. You have probably noticed that:
                     </label>
-                    <select name="role" id="roleSelect" class="w-full p-2 border rounded-md mb-2">
-                        <option value="">-- Select role--</option>
-                        <option value="dev">Individual Developer</option>
-                        <option value="lead">Technical Lead / Architect</option>
-                        <option value="exec">Executive</option>
-                        <option value="other">Other</option>
-                    </select>
-                    <div id="otherRoleContainer" class="hidden">
-                        <input 
-                            type="text" 
-                            id="otherRole"
-                            name="otherRole" 
-                            maxlength="100"
-                            class="w-full p-2 border rounded-md"
-                            placeholder="Please specify your role (max 100 characters)"
-                        >
-                        <span class="text-sm text-gray-500" id="otherRoleCount">0/100</span>
-                    </div>
+                    <ul class="list-disc pl-5 space-y-2 mb-4">
+                        <li class="text-base text-gray-700">We are new to the benchmark</li>
+                        <li class="text-base text-gray-700">We have used open models</li>
+                        <li class="text-base text-gray-700">We have tackled about half the issues thus far</li>
+                        <li class="text-base text-gray-700">We have scored pretty well on the repos we've targeted</li>
+                    </ul>
                 </div>
-
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        What use cases are you targeting for AI software development agents?
-                        <span class="text-sm text-gray-500">(Select multiple)</span>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        We are interested in understanding what interests you in AI coding agents. Specifically, what usecases are you targeting?
                     </label>
                     <div class="space-y-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" name="usecase" value="test" class="mr-2">
+                        <label class="flex items-center text-base">
+                            <input type="checkbox" name="usecase" value="defect-detect" class="mr-2">
+                            Defect detection
+                        </label>
+                        <label class="flex items-center text-base">
+                            <input type="checkbox" name="usecase" value="defect-fix" class="mr-2">
+                            Defect fixing
+                        </label>
+                        <label class="flex items-center text-base">
+                            <input type="checkbox" name="usecase" value="minor-feature" class="mr-2">
+                            Minor feature implementation
+                        </label>
+                        <label class="flex items-center text-base">
+                            <input type="checkbox" name="usecase" value="pr-review" class="mr-2">
+                            PR review
+                        </label>
+                        <label class="flex items-center text-base">
+                            <input type="checkbox" name="usecase" value="test-gen" class="mr-2">
                             Test generation
                         </label>
-                        <label class="flex items-center">
+                        <label class="flex items-center text-base">
                             <input type="checkbox" name="usecase" value="deploy" class="mr-2">
                             Deployment automation
                         </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" name="usecase" value="defect" class="mr-2">
-                            Defect fixing
-                        </label>
-                        <label class="flex items-center">
+                        <label class="flex items-center text-base">
                             <input type="checkbox" name="usecase" value="doc" class="mr-2">
-                            Document generation
+                            Documentation generation
                         </label>
-                        <label class="flex items-center">
+                        <label class="flex items-center text-base">
                             <input type="checkbox" name="usecase" value="other" id="otherUsecaseCheckbox" class="mr-2">
                             Other
                         </label>
@@ -71,61 +69,61 @@
                             id="otherUsecase"
                             name="otherUsecase" 
                             maxlength="200"
-                            class="w-full p-2 border rounded-md"
+                            class="w-full p-2 border rounded-md text-base"
                             placeholder="Please specify other use cases (max 200 characters)"
                         >
-                        <span class="text-sm text-gray-500" id="otherUsecaseCount">0/200</span>
+                        <span class="text-base text-gray-500" id="otherUsecaseCount">0/200</span>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Any other information you think we'll find useful?
-                        <span class="text-sm text-gray-500">(max 1000 characters)</span>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Any other information you think we'll find interesting?
+                        <span class="text-base text-gray-500">(max 1000 characters)</span>
                     </label>
                     <textarea 
                         name="moreinfo" 
                         id="moreinfo"
                         maxlength="1000"
-                        class="w-full p-2 border rounded-md"
+                        class="w-full p-2 border rounded-md text-base"
                         rows="3"
                     ></textarea>
-                    <span class="text-sm text-gray-500" id="moreinfoCount">0/1000</span>
+                    <span class="text-base text-gray-500" id="moreinfoCount">0/1000</span>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        If you would like to know who we are, drop your email address below and you will be the first to know!
                     </label>
                     <input 
                         type="email" 
                         name="email" 
                         id="email"
-                        required 
                         maxlength="254"
                         pattern="[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}"
-                        class="w-full p-2 border rounded-md"
+                        class="w-full p-2 border rounded-md text-base"
                         placeholder="your@email.com"
                     >
-                    <div id="emailError" class="text-red-500 text-sm mt-1 hidden"></div>
-                    <span class="text-sm text-gray-500">Maximum 254 characters</span>
+                    <div id="emailError" class="text-red-500 text-base mt-1 hidden"></div>
+                    <span class="text-base text-gray-500">Maximum 254 characters</span>
                 </div>
 
                 <button 
                     type="submit" 
-                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                    id="submitButton"
+                    disabled
+                    class="w-full py-2 px-4 rounded-md text-base transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-blue-600 text-white enabled:hover:bg-blue-700"
                 >
-                    Stay Updated
+                    Submit
                 </button>
 
                 <div id="submitStatus" class="text-center hidden">
-                    <p class="text-green-600">Thanks for your interest! We'll keep you updated.</p>
+                    <p class="text-green-600 text-base">Thanks for your interest! We'll get back to you when we're ready.</p>
                 </div>
 
-                <!-- Debug Output -->
                 <div id="debugOutput" class="mt-4 p-4 bg-gray-100 rounded-md hidden">
-                    <h3 class="font-bold mb-2">Debug Output:</h3>
-                    <pre id="debugContent" class="whitespace-pre-wrap break-words text-sm"></pre>
+                    <h3 class="font-bold mb-2 text-base">Debug Output:</h3>
+                    <pre id="debugContent" class="whitespace-pre-wrap break-words text-base"></pre>
                 </div>
             </form>
         </div>
@@ -145,7 +143,34 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+
+        function validateForm() {
+            const checkboxes = document.querySelectorAll('input[name="usecase"]:checked');
+            const moreInfo = document.getElementById('moreinfo').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const emailValid = email === '' || email.match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/);
+            
+            // Enable submit if:
+            // 1. At least one checkbox is checked OR
+            // 2. More info has content OR
+            // 3. A valid email is provided
+            const hasInput = checkboxes.length > 0 || moreInfo.length > 0 || (email.length > 0 && emailValid);
+            
+            const submitButton = document.getElementById('submitButton');
+            submitButton.disabled = !hasInput;
+        }
+
         
+        // Add event listeners to all form inputs
+        document.querySelectorAll('input[name="usecase"]').forEach(checkbox => {
+            checkbox.addEventListener('change', validateForm);
+        });
+
+        document.getElementById('moreinfo').addEventListener('input', validateForm);
+        document.getElementById('email').addEventListener('input', validateForm);
+        document.getElementById('otherUsecase').addEventListener('input', validateForm);
+
+
         // Character counter function
         function updateCharCount(inputEl, countEl, maxLength) {
             const count = inputEl.value.length;
@@ -156,7 +181,6 @@
 
         // Setup character counters
         const counterSetups = [
-            ['otherRole', 'otherRoleCount', 100],
             ['otherUsecase', 'otherUsecaseCount', 200],
             ['moreinfo', 'moreinfoCount', 1000]
         ];
@@ -185,22 +209,6 @@
             });
             return sanitized.trim();
         }
-
-        // Show/hide other role field
-        document.getElementById('roleSelect').addEventListener('change', function() {
-            const otherRoleContainer = document.getElementById('otherRoleContainer');
-            const otherRoleInput = document.getElementById('otherRole');
-            const otherRoleCount = document.getElementById('otherRoleCount');
-            
-            otherRoleContainer.classList.toggle('hidden', this.value !== 'other');
-            if (this.value === 'other') {
-                otherRoleInput.required = true;
-            } else {
-                otherRoleInput.required = false;
-                otherRoleInput.value = ''; // Clear the input
-                otherRoleCount.textContent = '0/100'; // Reset counter
-            }
-        });
 
         // Show/hide other usecase field
         document.getElementById('otherUsecaseCheckbox').addEventListener('change', function() {
@@ -245,9 +253,6 @@
             
             // Collect and sanitize form data
             const formData = {
-                role: document.getElementById('roleSelect').value,
-                otherRole: document.getElementById('roleSelect').value === 'other' ? 
-                        sanitizeInput(document.getElementById('otherRole').value) : null,
                 usecases: Array.from(document.querySelectorAll('input[name="usecase"]:checked'))
                             .map(cb => cb.value),
                 otherUsecase: document.getElementById('otherUsecaseCheckbox').checked ?
@@ -260,14 +265,6 @@
             // Validation
             let errors = [];
             
-            if (formData.role === 'other') {
-                if (!formData.otherRole) {
-                    errors.push('Please specify your role');
-                } else if (formData.otherRole.length < 2) {
-                    errors.push('Role description must be at least 2 characters');
-                }
-            }
-
             if (formData.usecases.includes('other')) {
                 if (!formData.otherUsecase) {
                     errors.push('Please specify other use cases');
@@ -276,11 +273,9 @@
                 }
             }
 
-            // Email validation
+            // Email validation - email is optional, but needs to be valid if provided
             const email = formData.email;
-            if (!email) {
-                errors.push('Email is required');
-            } else {
+            if (email) {
                 if (!email.match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/)) {
                     errors.push('Please enter a valid email address');
                 }
@@ -329,7 +324,6 @@
             const cleanedData = cleanFormData(formData);
 
             try {
-
                 // Save to Firebase
                 await db.collection('interests').add(cleanedData);
                 
@@ -337,7 +331,7 @@
                 document.getElementById('submitStatus').classList.remove('hidden');
                 setTimeout(() => {
                     document.getElementById('submitStatus').classList.add('hidden');
-                }, 3000);
+                }, 10000);
 
                 // Clear form
                 e.target.reset();
