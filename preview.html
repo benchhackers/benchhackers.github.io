@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Benchhacker Approach</title>
+    <script src="https://cdn.tailwindcss.com""></script>
+    <style>
+        @media (max-width: 640px) {
+            .container {
+                width: 100%;
+                padding-right: 12px;
+                padding-left: 12px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-indigo-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <h1 class="text-xl font-bold mb-3 sm:mb-0">The Benchhacker Approach</h1>
+            <div class="flex space-x-4">
+                <a href="#section1" class="hover:underline">SWE-Bench</a>
+                <a href="#section2" class="hover:underline">The Fixer Agent</a>
+                <a href="#section3" class="hover:underline">The Details</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto py-6 sm:py-8 px-3 sm:px-4">
+        <div class="text-center text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">
+            <p><i>Automate software maintenance with AI Agents</i><p>
+            <p><i>Free developers for innovation</i><p>
+        </div>
+        <!-- Section 1 -->
+        <section id="section1" class="mb-12 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2"><a href="https://www.swebench.com/index.html#verified" target="_blank" rel="noopener noreferrer">SWE-Bench</a></h2>
+            
+            <div class="overflow-x-auto -mx-6 sm:mx-0">
+                <div class="inline-block min-w-full align-middle">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr class="bg-indigo-100 text-indigo-700">
+                                <th class="w-1/3 py-3 px-2 sm:px-4 text-center text-xs sm:text-sm font-semibold border">Project</th>
+                                <th class="w-1/3 py-3 px-2 sm:px-4 text-center text-xs sm:text-sm font-semibold border">SOTA</th>
+                                <th class="w-1/3 py-3 px-2 sm:px-4 text-center text-xs sm:text-sm font-semibold border">Us</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">psf/requests</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">5/8 (62.5%)</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">8/8 (100%)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">astropy/astropy</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">12/22 (54.55%)</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-center" rowspan="11">Coming Soon</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">django/django</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">154/231 (66.67%)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">matplotlib/matplotlib</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">19/34 (55.88%)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">mwaskom/seaborn</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">0/2 (0%)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">pallets/flask</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">1/1 (100%)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">pydata/xarray</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">18/22 (81.82%)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">pylint-dev/pylint</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">0/2 (0%)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">pytest-dev/pytest</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">14/19 (73.68%)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">scikit-learn/scikit-learn</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">27/32 (84.38%)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">sphinx-doc/sphinx</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">23/44 (52.27%)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">sympy/sympy</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">47/75 (62.67%)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section id="section2" class="mb-12 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">The Fixer Agent</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2 text-indigo-600">1. Finds the <a href="https://github.com/psf/requests/pull/1142" target="_blank" rel="noopener noreferrer">defect</a></h3>
+                </div>
+                
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2 text-indigo-600">2. Explains the defect and proposes a fix</h3>
+                </div>
+
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2 text-indigo-600">3. Generates the fix</h3>
+                </div>
+
+                <div class="bg-indigo-50 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2 text-indigo-600">4. Generates necessary tests</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Section 3 -->
+        <section id="section3" class="mb-12 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">The Details</h2>
+            
+            <div class="space-y-4">
+                <p class="text-gray-700">Here is a detailed trajectory of the Fixer Agent in action</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-indigo-800 text-white p-6">
+        <div class="container mx-auto">
+            <p class="text-center">&copy; benchhackers.com 2025. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

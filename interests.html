@@ -9,126 +9,131 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-start justify-center font-sans mt-8">
-    <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl w-full mx-4">
-        <div id="formContainer">
-            <h1 class="text-2xl font-bold mb-6 text-center">What Interests You In SWE-bench and AI Coding Agents?</h1>
-            
-            <form id="interestForm" class="space-y-6">
-                <div>
-                    <label class="block text-base font-medium text-gray-700 mb-2">
-                        If you are here, you are our kind of benchmark hacker. You have been tracking SWE-bench. You have probably noticed that:
-                    </label>
-                    <ul class="list-disc pl-5 space-y-2 mb-4">
-                        <li class="text-base text-gray-700">We are new to the benchmark</li>
-                        <li class="text-base text-gray-700">We have used open models</li>
-                        <li class="text-base text-gray-700">We have tackled about half the issues thus far</li>
-                        <li class="text-base text-gray-700">We have scored pretty well on the repos we've targeted</li>
-                    </ul>
-                </div>
-                <div>
-                    <label class="block text-base font-medium text-gray-700 mb-2">
-                        We are interested in understanding what interests you in AI coding agents. Specifically, what usecases are you targeting?
-                    </label>
-                    <div class="space-y-2">
-                        <label class="flex items-center text-base">
-                            <input type="checkbox" name="usecase" value="defect-detect" class="mr-2">
-                            Defect detection
+    <main>
+
+        <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl w-full mx-4">
+            <div id="formContainer">
+                <h1 class="text-2xl font-bold mb-6 text-center">What Interests You In SWE-bench and AI Coding Agents?</h1>
+                
+                <form id="interestForm" class="space-y-6">
+                    <div>
+                        <label class="block text-base font-medium text-gray-700 mb-2">
+                            If you are here, you are our kind of benchmark hacker. You have been tracking SWE-bench. You have probably noticed that:
                         </label>
-                        <label class="flex items-center text-base">
-                            <input type="checkbox" name="usecase" value="defect-fix" class="mr-2">
-                            Defect fixing
-                        </label>
-                        <label class="flex items-center text-base">
-                            <input type="checkbox" name="usecase" value="minor-feature" class="mr-2">
-                            Minor feature implementation
-                        </label>
-                        <label class="flex items-center text-base">
-                            <input type="checkbox" name="usecase" value="pr-review" class="mr-2">
-                            PR review
-                        </label>
-                        <label class="flex items-center text-base">
-                            <input type="checkbox" name="usecase" value="test-gen" class="mr-2">
-                            Test generation
-                        </label>
-                        <label class="flex items-center text-base">
-                            <input type="checkbox" name="usecase" value="deploy" class="mr-2">
-                            Deployment automation
-                        </label>
-                        <label class="flex items-center text-base">
-                            <input type="checkbox" name="usecase" value="doc" class="mr-2">
-                            Documentation generation
-                        </label>
-                        <label class="flex items-center text-base">
-                            <input type="checkbox" name="usecase" value="other" id="otherUsecaseCheckbox" class="mr-2">
-                            Other
-                        </label>
+                        <ul class="list-disc pl-5 space-y-2 mb-4">
+                            <li class="text-base text-gray-700">We are new to the benchmark</li>
+                            <li class="text-base text-gray-700">We have used open models</li>
+                            <li class="text-base text-gray-700">We have tackled about half the issues thus far</li>
+                            <li class="text-base text-gray-700">We have scored pretty well on the repos we've targeted</li>
+                        </ul>
                     </div>
-                    <div id="otherUsecaseContainer" class="hidden mt-2">
-                        <input 
-                            type="text" 
-                            id="otherUsecase"
-                            name="otherUsecase" 
-                            maxlength="200"
+                    <div>
+                        <label class="block text-base font-medium text-gray-700 mb-2">
+                            We are interested in understanding what interests you in AI coding agents. Specifically, what usecases are you targeting?
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center text-base">
+                                <input type="checkbox" name="usecase" value="defect-detect" class="mr-2">
+                                Defect detection
+                            </label>
+                            <label class="flex items-center text-base">
+                                <input type="checkbox" name="usecase" value="defect-fix" class="mr-2">
+                                Defect fixing
+                            </label>
+                            <label class="flex items-center text-base">
+                                <input type="checkbox" name="usecase" value="minor-feature" class="mr-2">
+                                Minor feature implementation
+                            </label>
+                            <label class="flex items-center text-base">
+                                <input type="checkbox" name="usecase" value="pr-review" class="mr-2">
+                                PR review
+                            </label>
+                            <label class="flex items-center text-base">
+                                <input type="checkbox" name="usecase" value="test-gen" class="mr-2">
+                                Test generation
+                            </label>
+                            <label class="flex items-center text-base">
+                                <input type="checkbox" name="usecase" value="deploy" class="mr-2">
+                                Deployment automation
+                            </label>
+                            <label class="flex items-center text-base">
+                                <input type="checkbox" name="usecase" value="doc" class="mr-2">
+                                Documentation generation
+                            </label>
+                            <label class="flex items-center text-base">
+                                <input type="checkbox" name="usecase" value="other" id="otherUsecaseCheckbox" class="mr-2">
+                                Other
+                            </label>
+                        </div>
+                        <div id="otherUsecaseContainer" class="hidden mt-2">
+                            <input 
+                                type="text" 
+                                id="otherUsecase"
+                                name="otherUsecase" 
+                                maxlength="200"
+                                class="w-full p-2 border rounded-md text-base"
+                                placeholder="Please specify other use cases (max 200 characters)"
+                            >
+                            <span class="text-base text-gray-500" id="otherUsecaseCount">0/200</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-base font-medium text-gray-700 mb-2">
+                            Any other information you think we'll find interesting?
+                            <span class="text-base text-gray-500">(max 1000 characters)</span>
+                        </label>
+                        <textarea 
+                            name="moreinfo" 
+                            id="moreinfo"
+                            maxlength="1000"
                             class="w-full p-2 border rounded-md text-base"
-                            placeholder="Please specify other use cases (max 200 characters)"
-                        >
-                        <span class="text-base text-gray-500" id="otherUsecaseCount">0/200</span>
+                            rows="3"
+                        ></textarea>
+                        <span class="text-base text-gray-500" id="moreinfoCount">0/1000</span>
                     </div>
-                </div>
 
-                <div>
-                    <label class="block text-base font-medium text-gray-700 mb-2">
-                        Any other information you think we'll find interesting?
-                        <span class="text-base text-gray-500">(max 1000 characters)</span>
-                    </label>
-                    <textarea 
-                        name="moreinfo" 
-                        id="moreinfo"
-                        maxlength="1000"
-                        class="w-full p-2 border rounded-md text-base"
-                        rows="3"
-                    ></textarea>
-                    <span class="text-base text-gray-500" id="moreinfoCount">0/1000</span>
-                </div>
+                    <div>
+                        <label class="block text-base font-medium text-gray-700 mb-2">
+                            If you would like to know who we are, drop your email address below and you will be the first to know!
+                        </label>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            id="email"
+                            maxlength="254"
+                            pattern="[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}"
+                            class="w-full p-2 border rounded-md text-base"
+                            placeholder="your@email.com"
+                        >
+                        <div id="emailError" class="text-red-500 text-base mt-1 hidden"></div>
+                        <span class="text-base text-gray-500">Maximum 254 characters</span>
+                    </div>
 
-                <div>
-                    <label class="block text-base font-medium text-gray-700 mb-2">
-                        If you would like to know who we are, drop your email address below and you will be the first to know!
-                    </label>
-                    <input 
-                        type="email" 
-                        name="email" 
-                        id="email"
-                        maxlength="254"
-                        pattern="[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}"
-                        class="w-full p-2 border rounded-md text-base"
-                        placeholder="your@email.com"
+                    <button 
+                        type="submit" 
+                        id="submitButton"
+                        disabled
+                        class="w-full py-2 px-4 rounded-md text-base transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-blue-600 text-white enabled:hover:bg-blue-700"
                     >
-                    <div id="emailError" class="text-red-500 text-base mt-1 hidden"></div>
-                    <span class="text-base text-gray-500">Maximum 254 characters</span>
-                </div>
+                        Submit
+                    </button>
 
-                <button 
-                    type="submit" 
-                    id="submitButton"
-                    disabled
-                    class="w-full py-2 px-4 rounded-md text-base transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-blue-600 text-white enabled:hover:bg-blue-700"
-                >
-                    Submit
-                </button>
+                    <div id="submitStatus" class="text-center hidden">
+                        <p class="text-green-600 text-base">Thanks for your interest! We'll get back to you when we're ready.</p>
+                    </div>
 
-                <div id="submitStatus" class="text-center hidden">
-                    <p class="text-green-600 text-base">Thanks for your interest! We'll get back to you when we're ready.</p>
-                </div>
-
-                <div id="debugOutput" class="mt-4 p-4 bg-gray-100 rounded-md hidden">
-                    <h3 class="font-bold mb-2 text-base">Debug Output:</h3>
-                    <pre id="debugContent" class="whitespace-pre-wrap break-words text-base"></pre>
-                </div>
-            </form>
+                    <div id="debugOutput" class="mt-4 p-4 bg-gray-100 rounded-md hidden">
+                        <h3 class="font-bold mb-2 text-base">Debug Output:</h3>
+                        <pre id="debugContent" class="whitespace-pre-wrap break-words text-base"></pre>
+                    </div>
+                </form>
+            </div>
+            <div class="mt-8">
+                <p class="text-center text-gray-500 text-sm">&copy; benchhackers.com 2025 All rights reserved.</p>
+            </div>
         </div>
-    </div>
-
+    </main>
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyBMvD69GWPB4oWI2mbi5ak4yqNQi7qQFrU",
