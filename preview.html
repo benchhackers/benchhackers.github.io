@@ -136,21 +136,21 @@
                 <div class="bg-indigo-50 p-4 rounded-lg">
                     <h3 class="flex text-xl font-semibold mb-2 text-indigo-600">
                         <span class="flex-none w-6">2.</span>
-                        <span class="flex-1">Explains the defect and proposes a fix</span>
+                        <span class="flex-1"><a href="#fix-analysis">Explains</a> the defect and proposes a fix</span>
                     </h3>
                 </div>
 
                 <div class="bg-indigo-50 p-4 rounded-lg">
                     <h3 class="flex text-xl font-semibold mb-2 text-indigo-600">
                         <span class="flex-none w-6">3.</span>
-                        <span class="flex-1">Generates the fix</span>
+                        <span class="flex-1">Generates the <a href="#the-fix">fix</a></span>
                     </h3>
                 </div>
 
                 <div class="bg-indigo-50 p-4 rounded-lg">
                     <h3 class="flex text-xl font-semibold mb-2 text-indigo-600">
                         <span class="flex-none w-6">4.</span>
-                        <span class="flex-1">Generates necessary tests</span>
+                        <span class="flex-1">Generates necessary <a href="#tests">tests</a></span>
                     </h3>
                 </div>
             </div>
@@ -161,14 +161,14 @@
             <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">Details</h2>
             
             <div class="space-y-6">
-                <div>
+                <div id="fix-analysis">
                     <h3 class="text-xl font-semibold mb-4 text-indigo-600">Fix Analysis</h3>
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <p class="text-gray-700">The issue arises because the <code>prepare_body</code> method in the <code>PreparedRequest</code> class sets the 'Content-Length' header for all request types, including GET requests. This causes problems with some servers, like http://amazon.com, which return a 503 error when a GET request includes a 'Content-Length' header. The <code>prepare_content_length</code> method is called after <code>prepare_body</code> and sets the 'Content-Length' header to '0' if the body is empty, but this still includes the header in the request. The <code>prepare_body</code> and <code>prepare_content_length</code> methods of the <code>PreparedRequest</code> class are the cause of the issue. The issue is located in the <code>/requests/models.py</code> file.</p>
                     </div>
                 </div>
 
-                <div>
+                <div id="the-fix">
                     <h3 class="text-xl font-semibold mb-4 text-indigo-600">The Fix</h3>
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <pre><code>--- a/requests/models.py
@@ -212,7 +212,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
                     </div>
                 </div>
 
-                <div>
+                <div id="tests">
                     <h3 class="text-xl font-semibold mb-4 text-indigo-600">Tests</h3>
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <pre><code>import pytest
