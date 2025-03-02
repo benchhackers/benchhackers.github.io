@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Benchhacker Approach</title>
-    <script src="https://cdn.tailwindcss.com""></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media (max-width: 640px) {
             .container {
@@ -12,6 +12,22 @@
                 padding-right: 12px;
                 padding-left: 12px;
             }
+        }
+        pre {
+            white-space: pre;
+            overflow-x: auto;
+            background-color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            font-size: 0.75rem;
+        }
+        code {
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+        pre code {
+            font-size: 0.75rem !important;
         }
     </style>
 </head>
@@ -23,7 +39,8 @@
             <div class="flex space-x-4">
                 <a href="#section1" class="hover:underline">SWE-Bench</a>
                 <a href="#section2" class="hover:underline">The Fixer Agent</a>
-                <a href="#section3" class="hover:underline">The Details</a>
+                <a href="#section3" class="hover:underline">Details</a>
+                <a href="#markdown" class="hover:underline">Raw Trajectory</a>
             </div>
         </div>
     </nav>
@@ -31,8 +48,8 @@
     <!-- Main Content -->
     <main class="container mx-auto py-6 sm:py-8 px-3 sm:px-4">
         <div class="text-center text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">
-            <p><i>Automate software maintenance with AI Agents</i><p>
-            <p><i>Free developers for innovation</i><p>
+            <p><i>Automate software maintenance with AI Agents</i></p>
+            <p><i>Free developers for innovation</i></p>
         </div>
         <!-- Section 1 -->
         <section id="section1" class="mb-12 bg-white p-6 rounded-lg shadow-md">
@@ -138,15 +155,263 @@
                     </h3>
                 </div>
             </div>
-
         </section>
 
         <!-- Section 3 -->
         <section id="section3" class="mb-12 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">The Details</h2>
+            <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">Details</h2>
             
-            <div class="space-y-4">
-                <p class="text-gray-700">Here is a detailed trajectory of the Fixer Agent in action</p>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-indigo-600">Fix Analysis</h3>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-gray-700">The issue arises because the <code>prepare_body</code> method in the <code>PreparedRequest</code> class sets the 'Content-Length' header for all request types, including GET requests. This causes problems with some servers, like http://amazon.com, which return a 503 error when a GET request includes a 'Content-Length' header. The <code>prepare_content_length</code> method is called after <code>prepare_body</code> and sets the 'Content-Length' header to '0' if the body is empty, but this still includes the header in the request. The <code>prepare_body</code> and <code>prepare_content_length</code> methods of the <code>PreparedRequest</code> class are the cause of the issue. The issue is located in the <code>/requests/models.py</code> file.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-indigo-600">The Fix</h3>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <pre><code>--- a/requests/models.py
++++ b/requests/models.py
+@@ -231,6 +231,7 @@
+         return p
+
+
++
+class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
+    """The fully mutable :class:`PreparedRequest <PreparedRequest>` object,
+    containing the exact bytes that will be sent to the server.
+@@ -377,7 +378,8 @@
+                    else:
+                        content_type = 'application/x-www-form-urlencoded'
+
+-            self.prepare_content_length(body)
++            if self.method != 'GET' or body:
++                self.prepare_content_length(body)
+
+            # Add content-type if it wasn't explicitly provided.
+            if (content_type) and (not 'content-type' in self.headers):
+@@ -386,13 +388,13 @@
+        self.body = body
+
+    def prepare_content_length(self, body):
+-        self.headers['Content-Length'] = '0'
+-        if hasattr(body, 'seek') and hasattr(body, 'tell'):
+-            body.seek(0, 2)
+-            self.headers['Content-Length'] = str(body.tell())
+-            body.seek(0, 0)
+-        elif body is not None:
+-            self.headers['Content-Length'] = str(len(body))
++        if body is not None:
++            if hasattr(body, 'seek') and hasattr(body, 'tell'):
++                body.seek(0, 2)
++                self.headers['Content-Length'] = str(body.tell())
++                body.seek(0, 0)
++            elif body is not None:
++                self.headers['Content-Length'] = str(len(body))</code></pre>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-indigo-600">Tests</h3>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <pre><code>import pytest
+from unittest.mock import Mock, patch
+import requests
+
+@pytest.fixture
+def mock_get():
+  with patch('requests.get') as mock_get:
+    yield mock_get
+
+def test_reproduce(mock_get):
+  # Create a test server that returns a response with a 503 status code when the 'content-length' header is present in the request
+  mock_response = Mock()
+  mock_response.status_code = 503
+  mock_get.return_value = mock_response
+
+  # Send a GET request to the test server
+  response = requests.get('http://example.com')
+
+  # Check if the 'content-length' header is present in the request
+  request = requests.Request('GET', 'http://example.com')
+  prepared_request = request.prepare()
+  assert 'Content-Length' in prepared_request.headers
+
+  # Verify that the server returns a 503 status code
+  assert response.status_code == 503</code></pre>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Raw Markdown Section -->
+        <section id="markdown" class="mb-12 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">Raw Trajectory</h2>
+            
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <pre class="text-xs sm:text-sm text-gray-700">
+## Issue - requests - 1142
+
+
+requests.get is ALWAYS sending content length
+Hi,
+
+It seems like that request.get always adds 'content-length' header to the request.
+I think that the right behavior is not to add this header automatically in GET requests or add the possibility to not send it.
+
+For example http://amazon.com returns 503 for every get request that contains 'content-length' header.
+
+Thanks,
+
+Oren
+
+
+
+## Test Analysis
+
+The issue being addressed is related to the requests.get function sending a 'content-length' header, which can cause problems with certain servers. To test this issue, two tests are being created: 'reproduce' and 'verify'. The 'reproduce' test checks if the 'content-length' header is sent with a GET request, while the 'verify' test checks if the issue has been fixed by verifying that the header is not sent. The relevant code for this issue is in the requests library, specifically in the sessions.py and models.py files. The unittest.mock library is being used to mock the requests.get function and the server response for testing.
+
+## Fix Analysis
+
+The issue arises because the `prepare_body` method in the `PreparedRequest` class sets the 'Content-Length' header for all request types, including GET requests. This causes problems with some servers, like http://amazon.com, which return a 503 error when a GET request includes a 'Content-Length' header. The `prepare_content_length` method is called after `prepare_body` and sets the 'Content-Length' header to '0' if the body is empty, but this still includes the header in the request. The `prepare_body` and `prepare_content_length` methods of the `PreparedRequest` class are the cause of the issue. The issue is located in the `/requests/models.py` file.
+
+## Test Design
+
+### Reproduce
+
+The 'reproduce' test confirms the presence of an issue by checking if the 'content-length' header is sent with a GET request. To perform this test, a test server is created to return a 503 status code when the 'content-length' header is present in the request. The test sends a GET request to the test server using the requests.get function and checks for the 'content-length' header. The test passes if the header is present and the server returns a 503 status code. The purpose of the test is to verify the issue by confirming the presence of the 'content-length' header and the server's response.
+
+### Verify
+
+The 'verify' test checks if an issue has been fixed by verifying the absence of the 'content-length' header in a GET request. This test creates a test server that returns a 200 status code when the header is not present. The test uses the requests.get function to send a GET request to the test server and checks for the header's absence. The test passes if the header is not present and the server returns a 200 status code. The test is designed to verify that the 'content-length' header is not sent with a GET request.
+
+## Fix Design
+
+The issue at hand requires modifying two methods, `prepare_body` and `prepare_content_length`, to conditionally set the 'Content-Length' header based on the request method. For GET requests with an empty body, the 'Content-Length' header should not be set. This adjustment aims to fix a specific problem. The modification involves adding a conditional check for the request method before setting the header. By doing so, the code ensures proper handling of GET requests.
+
+## Test
+
+The issue at hand involves the requests.get function sending a 'content-length' header, which can cause problems with certain servers. To address this, two tests are being created: 'reproduce' and 'verify'. The tests utilize the pytest framework and unittest.mock library to mock the requests.get function and server response. The goal is to confirm whether the 'content-length' header is sent with a GET request and verify if the issue has been fixed. The tests are designed to check the server's response based on the presence or absence of the 'content-length' header.
+
+```
+--- /dev/null
++++ reproduce.py
+@@ -0,0 +1,25 @@
++import pytest
++from unittest.mock import Mock, patch
++import requests
++
++@pytest.fixture
++def mock_get():
++  with patch('requests.get') as mock_get:
++    yield mock_get
++
++def test_reproduce(mock_get):
++  # Create a test server that returns a response with a 503 status code when the 'content-length' header is present in the request
++  mock_response = Mock()
++  mock_response.status_code = 503
++  mock_get.return_value = mock_response
++
++  # Send a GET request to the test server
++  response = requests.get('http://example.com')
++
++  # Check if the 'content-length' header is present in the request
++  request = requests.Request('GET', 'http://example.com')
++  prepared_request = request.prepare()
++  assert 'Content-Length' in prepared_request.headers
++
++  # Verify that the server returns a 503 status code
++  assert response.status_code == 503
+--- /dev/null
++++ verify.py
+@@ -0,0 +1,25 @@
++import pytest
++from unittest.mock import Mock, patch
++import requests
++
++@pytest.fixture
++def mock_get():
++  with patch('requests.get') as mock_get:
++    yield mock_get
++
++def test_verify(mock_get):
++  # Create a test server that returns a response with a 200 status code when the 'content-length' header is not present in the request
++  mock_response = Mock()
++  mock_response.status_code = 200
++  mock_get.return_value = mock_response
++
++  # Send a GET request to the test server
++  response = requests.get('http://example.com')
++
++  # Check if the 'content-length' header is not present in the request
++  request = requests.Request('GET', 'http://example.com')
++  prepared_request = request.prepare()
++  assert 'Content-Length' not in prepared_request.headers
++
++  # Verify that the server returns a 200 status code
++  assert response.status_code == 200
++
++```
++
++## Fix
++
++The issue of the 'Content-Length' header being included in GET requests is being addressed by modifying the `prepare_body` and `prepare_content_length` methods of the `PreparedRequest` class. A conditional check for the request method is added to prevent setting the 'Content-Length' header when the request method is GET and the body is empty. This modification aims to resolve the issue with servers returning a 503 error. The main goal is to exclude the 'Content-Length' header from GET requests. The changes are intended to fix the problem with minimal adjustments to the existing code.
++
++```
++--- a/requests/models.py
+++++ b/requests/models.py
++@@ -231,6 +231,7 @@
++         return p
++
++
+++
++ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
++     """The fully mutable :class:`PreparedRequest <PreparedRequest>` object,
++     containing the exact bytes that will be sent to the server.
++@@ -377,7 +378,8 @@
++                     else:
++                         content_type = 'application/x-www-form-urlencoded'
++
++-            self.prepare_content_length(body)
+++            if self.method != 'GET' or body:
+++                self.prepare_content_length(body)
++
++             # Add content-type if it wasn't explicitly provided.
++             if (content_type) and (not 'content-type' in self.headers):
++@@ -386,13 +388,13 @@
++         self.body = body
++
++     def prepare_content_length(self, body):
++-        self.headers['Content-Length'] = '0'
++-        if hasattr(body, 'seek') and hasattr(body, 'tell'):
++-            body.seek(0, 2)
++-            self.headers['Content-Length'] = str(body.tell())
++-            body.seek(0, 0)
++-        elif body is not None:
++-            self.headers['Content-Length'] = str(len(body))
+++        if body is not None:
+++            if hasattr(body, 'seek') and hasattr(body, 'tell'):
+++                body.seek(0, 2)
+++                self.headers['Content-Length'] = str(body.tell())
+++                body.seek(0, 0)
+++            elif body is not None:
+++                self.headers['Content-Length'] = str(len(body))
++
++     def prepare_auth(self, auth):
++         """Prepares the given HTTP auth data."""
++@@ -427,7 +429,6 @@
++         """Prepares the given hooks."""
++         for event in hooks:
++             self.register_hook(event, hooks[event])
++-
++
++ class Response(object):
++     """The :class:`Response <Response>` object, which contains a
++```
+                </pre>
             </div>
         </section>
     </main>
