@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Benchhacker Approach</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Theme configurations stored in JavaScript objects -->
     <script>
-        // Color Palette Configuration - Edit these values to change the color scheme
-        tailwind.config = {
+        // Define both themes as JavaScript objects
+        const colorTheme = {
             theme: {
                 extend: {
                     colors: {
@@ -26,8 +28,66 @@
                     }
                 }
             }
+        };
+
+        const grayscaleTheme = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f8f8f8',   // Lightest gray (almost white)
+                            100: '#f0f0f0',  // Very light gray
+                            600: '#666666',  // Medium-dark gray (for buttons/accents)
+                            700: '#4d4d4d',  // Dark gray
+                            800: '#333333',  // Very dark gray
+                        },
+                        secondary: {
+                            50: '#fafafa',   // Near-white
+                            100: '#f5f5f5',  // Light gray
+                            700: '#404040',  // Dark gray (for text)
+                        }
+                    }
+                }
+            }
+        };
+
+        // Set initial theme (grayscale by default)
+        tailwind.config = grayscaleTheme;
+        
+        // Function to toggle between themes
+        function toggleTheme() {
+            // Check which theme is currently active
+            const isGrayscale = document.getElementById('themeToggle').checked;
+            
+            // Apply the appropriate theme
+            if (isGrayscale) {
+                tailwind.config = grayscaleTheme;
+                localStorage.setItem('theme', 'grayscale');
+            } else {
+                tailwind.config = colorTheme;
+                localStorage.setItem('theme', 'color');
+            }
+            
+            // Force a page refresh to apply the new theme
+            // This is needed because Tailwind JIT doesn't dynamically update when config changes
+            location.reload();
         }
+        
+        // Load saved theme preference on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'grayscale';
+            const toggle = document.getElementById('themeToggle');
+            
+            if (savedTheme === 'grayscale') {
+                toggle.checked = true;
+                tailwind.config = grayscaleTheme;
+            } else {
+                toggle.checked = false;
+                tailwind.config = colorTheme;
+            }
+        });
     </script>
+
     <style>
         @media (max-width: 640px) {
             .container {
@@ -54,11 +114,11 @@
         }
     </style>
 </head>
-<body class="bg-secondary-100 min-h-screen">
+<body id="title" class="bg-secondary-100 min-h-screen">
     <!-- Navigation Bar -->
-    <nav class="bg-primary-600 text-white p-4 shadow-md">
+    <nav class="bg-primary-800 text-white p-4 shadow-md">
         <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center">
-            <h1 class="text-xl font-bold mb-3 sm:mb-0">The Benchhacker Approach</h1>
+            <h1 class="text-xl font-bold mb-3 sm:mb-0"><a href="#footer">The Benchhacker Approach</a></h1>
             <div class="flex space-x-4">
                 <a href="#section1" class="hover:underline">SWE-Bench</a>
                 <a href="#section2" class="hover:underline">The Fixer Agent</a>
@@ -91,7 +151,7 @@
                             <tr>
                                 <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">psf/requests</td>
                                 <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">5/8 (62.5%)</td>
-                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">8/8 (100%)</td>
+                                <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate text-right">8/8 (100%) &#10004;</td>
                             </tr>
                             <tr>
                                 <td class="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm border truncate">astropy/astropy</td>
@@ -436,12 +496,22 @@ The issue at hand involves the requests.get function sending a 'content-length' 
                 </pre>
             </div>
         </section>
+        <div class="container mx-auto p-4">
+            <div class="flex items-center justify-end mb-6">
+                <span class="mr-2 text-sm font-medium">Color</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="themeToggle" class="sr-only peer" onchange="toggleTheme()" checked>
+                    <div class="w-11 h-6 bg-primary-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-100 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-primary-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                </label>
+                <span class="ml-2 text-sm font-medium">Grayscale</span>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
     <footer class="bg-primary-800 text-white p-6">
-        <div class="container mx-auto">
-            <p class="text-center">&copy; benchhackers.com 2025. All rights reserved.</p>
+        <div id="footer" class="container mx-auto">
+            <p class="text-center"><a href="#title">&copy; benchhackers.com 2025. All rights reserved.</a></p>
         </div>
     </footer>
 </body>
