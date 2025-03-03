@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Benchhacker Approach</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Color Palette Configuration - Edit these values to change the color scheme
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f0ff',  // Previously indigo-50
+                            100: '#e0e7ff', // Previously indigo-100
+                            600: '#4f46e5', // Previously indigo-600
+                            700: '#4338ca', // Previously indigo-700
+                            800: '#3730a3', // Previously indigo-800
+                        },
+                        secondary: {
+                            100: '#f3f4f6', // Previously gray-100
+                            50: '#f9fafb',  // Previously gray-50
+                            700: '#374151', // Previously gray-700
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @media (max-width: 640px) {
             .container {
@@ -31,9 +54,9 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-secondary-100 min-h-screen">
     <!-- Navigation Bar -->
-    <nav class="bg-indigo-600 text-white p-4 shadow-md">
+    <nav class="bg-primary-600 text-white p-4 shadow-md">
         <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center">
             <h1 class="text-xl font-bold mb-3 sm:mb-0">The Benchhacker Approach</h1>
             <div class="flex space-x-4">
@@ -46,19 +69,19 @@
 
     <!-- Main Content -->
     <main class="container mx-auto py-6 sm:py-8 px-3 sm:px-4">
-        <div class="text-center text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">
+        <div class="text-center text-2xl font-bold mb-6 text-primary-700 border-b pb-2">
             <p><i>Automate software maintenance with AI Agents</i></p>
             <p><i>Free developers for innovation</i></p>
         </div>
         <!-- Section 1 -->
         <section id="section1" class="mb-12 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2"><a href="https://www.swebench.com/index.html#verified" target="_blank" rel="noopener noreferrer">SWE-Bench</a></h2>
+            <h2 class="text-2xl font-bold mb-6 text-primary-700 border-b pb-2"><a href="https://www.swebench.com/index.html#verified" target="_blank" rel="noopener noreferrer">SWE-Bench</a></h2>
             
             <div class="overflow-x-auto -mx-6 sm:mx-0">
                 <div class="inline-block min-w-full align-middle">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead>
-                            <tr class="bg-indigo-100 text-indigo-700">
+                            <tr class="bg-primary-100 text-primary-700">
                                 <th class="w-1/3 py-3 px-2 sm:px-4 text-center text-xs sm:text-sm font-semibold border">Project</th>
                                 <th class="w-1/3 py-3 px-2 sm:px-4 text-center text-xs sm:text-sm font-semibold border">SOTA</th>
                                 <th class="w-1/3 py-3 px-2 sm:px-4 text-center text-xs sm:text-sm font-semibold border">Us</th>
@@ -123,32 +146,32 @@
 
         <!-- Section 2 -->
         <section id="section2" class="mb-12 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">The Fixer Agent</h2>
+            <h2 class="text-2xl font-bold mb-6 text-primary-700 border-b pb-2">The Fixer Agent</h2>
 
             <div class="flex flex-col gap-6">
-                <div class="bg-indigo-50 p-4 rounded-lg">
-                    <h3 class="flex text-xl font-semibold mb-2 text-indigo-600">
+                <div class="bg-primary-50 p-4 rounded-lg">
+                    <h3 class="flex text-xl font-semibold mb-2 text-primary-600">
                         <span class="flex-none w-6">1.</span>
                         <span class="flex-1"><a href="https://github.com/psf/requests/pull/1142" target="_blank" rel="noopener noreferrer">Finds the defect</a></span>
                     </h3>
                 </div>
 
-                <div class="bg-indigo-50 p-4 rounded-lg">
-                    <h3 class="flex text-xl font-semibold mb-2 text-indigo-600">
+                <div class="bg-primary-50 p-4 rounded-lg">
+                    <h3 class="flex text-xl font-semibold mb-2 text-primary-600">
                         <span class="flex-none w-6">2.</span>
                         <span class="flex-1"><a href="#fix-analysis">Explains the defect and proposes a fix</a></span>
                     </h3>
                 </div>
 
-                <div class="bg-indigo-50 p-4 rounded-lg">
-                    <h3 class="flex text-xl font-semibold mb-2 text-indigo-600">
+                <div class="bg-primary-50 p-4 rounded-lg">
+                    <h3 class="flex text-xl font-semibold mb-2 text-primary-600">
                         <span class="flex-none w-6">3.</span>
                         <span class="flex-1"><a href="#the-fix">Generates the fix</a></span>
                     </h3>
                 </div>
 
-                <div class="bg-indigo-50 p-4 rounded-lg">
-                    <h3 class="flex text-xl font-semibold mb-2 text-indigo-600">
+                <div class="bg-primary-50 p-4 rounded-lg">
+                    <h3 class="flex text-xl font-semibold mb-2 text-primary-600">
                         <span class="flex-none w-6">4.</span>
                         <span class="flex-1"><a href="#tests">Generates necessary tests</a></span>
                     </h3>
@@ -158,19 +181,19 @@
 
         <!-- Section 3 -->
         <section id="section3" class="mb-12 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">Details</h2>
+            <h2 class="text-2xl font-bold mb-6 text-primary-700 border-b pb-2">Details</h2>
             
             <div class="space-y-6">
                 <div id="fix-analysis">
-                    <h3 class="text-xl font-semibold mb-4 text-indigo-600">Fix Analysis</h3>
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <p class="text-gray-700">The issue arises because the <code>prepare_body</code> method in the <code>PreparedRequest</code> class sets the 'Content-Length' header for all request types, including GET requests. This causes problems with some servers, like http://amazon.com, which return a 503 error when a GET request includes a 'Content-Length' header. The <code>prepare_content_length</code> method is called after <code>prepare_body</code> and sets the 'Content-Length' header to '0' if the body is empty, but this still includes the header in the request. The <code>prepare_body</code> and <code>prepare_content_length</code> methods of the <code>PreparedRequest</code> class are the cause of the issue. The issue is located in the <code>/requests/models.py</code> file.</p>
+                    <h3 class="text-xl font-semibold mb-4 text-primary-600">Fix Analysis</h3>
+                    <div class="bg-secondary-50 p-4 rounded-lg">
+                        <p class="text-secondary-700">The issue arises because the <code>prepare_body</code> method in the <code>PreparedRequest</code> class sets the 'Content-Length' header for all request types, including GET requests. This causes problems with some servers, like http://amazon.com, which return a 503 error when a GET request includes a 'Content-Length' header. The <code>prepare_content_length</code> method is called after <code>prepare_body</code> and sets the 'Content-Length' header to '0' if the body is empty, but this still includes the header in the request. The <code>prepare_body</code> and <code>prepare_content_length</code> methods of the <code>PreparedRequest</code> class are the cause of the issue. The issue is located in the <code>/requests/models.py</code> file.</p>
                     </div>
                 </div>
 
                 <div id="the-fix">
-                    <h3 class="text-xl font-semibold mb-4 text-indigo-600">The Fix</h3>
-                    <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-600">The Fix</h3>
+                    <div class="bg-secondary-50 p-4 rounded-lg">
                         <pre><code>--- a/requests/models.py
 +++ b/requests/models.py
 @@ -231,6 +231,7 @@
@@ -213,8 +236,8 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
                 </div>
 
                 <div id="tests">
-                    <h3 class="text-xl font-semibold mb-4 text-indigo-600">Tests</h3>
-                    <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-primary-600">Tests</h3>
+                    <div class="bg-secondary-50 p-4 rounded-lg">
                         <pre><code>import pytest
 from unittest.mock import Mock, patch
 import requests
@@ -248,10 +271,10 @@ def test_reproduce(mock_get):
 
         <!-- Raw Markdown Section -->
         <section id="markdown" class="mb-12 bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-6 text-indigo-700 border-b pb-2">Raw Trajectory</h2>
+            <h2 class="text-2xl font-bold mb-6 text-primary-700 border-b pb-2">Raw Trajectory</h2>
             
-            <div class="bg-gray-50 p-4 rounded-lg">
-                <pre class="text-xs sm:text-sm text-gray-700">
+            <div class="bg-secondary-50 p-4 rounded-lg">
+                <pre class="text-xs sm:text-sm text-secondary-700">
 ## Issue - requests - 1142
 
 
@@ -416,7 +439,7 @@ The issue at hand involves the requests.get function sending a 'content-length' 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-indigo-800 text-white p-6">
+    <footer class="bg-primary-800 text-white p-6">
         <div class="container mx-auto">
             <p class="text-center">&copy; benchhackers.com 2025. All rights reserved.</p>
         </div>
